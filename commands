@@ -1,0 +1,9 @@
+export TAG=$(date +%s)
+
+./mvnw clean package && docker build -t sanjeevthapa363/awseks:$TAG . && docker push sanjeevthapa363/awseks:$TAG
+
+kubectl set image deployment/myapp myapp=sanjeevthapa363/awseks:$TAG
+
+-- or --
+
+kubectl rollout restart deployment myapp
