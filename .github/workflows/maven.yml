@@ -38,9 +38,13 @@ jobs:
         push: true
         tags: sanjeevthapa363/awseks:latest
 
-    - name: Build and push
-      uses: docker/build-push-action@v6
-      with:
-        context: .
-        push: true
-        tags: sanjeevthapa363/awseks:latest
+    - name: Deploy to AWS EKS
+      env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        AWS_REGION: ${{ vars.AWS_REGION }}
+        AWS_CLUSTER: ${{ vars.AWS_CLUSTER }}
+      run: |
+        aws eks update-kubeconfig --region $AWS_REGION --name $AWS_CLUSTER
+        kubectl apply -f ./k8s/app-deployment.yml
+        kubectl rollout restart deployment myapp
