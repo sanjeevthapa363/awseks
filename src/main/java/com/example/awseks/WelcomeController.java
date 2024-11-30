@@ -8,7 +8,7 @@ public class WelcomeController {
 
     @GetMapping
     public ResponseDTO welcome() {
-        return ResponseDTO.success("Welcome to AWS EKS test");
+        return ResponseDTO.success("Welcome to AWS EKS");
     }
 
 }
